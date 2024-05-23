@@ -87,6 +87,14 @@ def displayNumbers(img, numbers, color=(0, 255, 0)):
                 cv2.putText(img, str(numbers[(j*9)+i]), (i*W+int(W/2)-int((W/4)), int((j+0.7)*H)), cv2.FONT_HERSHEY_COMPLEX, 2, color, 2, cv2.LINE_AA)
     return img
 
+def writenums(numpyArr:np.array):
+    """writes the detected numbers into a txt file 
+    in order to pass it into the solver program"""
+    with open("readData.txt", "w") as txtFile:
+        for row in numpyArr:
+            for col in row:
+                txtFile.write(" ".join(str(col)))
+
 # Read image
 img = cv2.imread('/Users/yunosuke/Documents/SudokuSolverCSA/CSA-Sudoku-Solver/CSA-FinalProject-SudokuSolver/sudoku1.png')
 
@@ -117,6 +125,7 @@ for i in prediction:
 board_num = np.array(predicted_numbers).astype('uint8').reshape(9, 9)
 
 print(board_num)
+writenums(board_num)
 
 board, location = find_board(img)
 cv2.imshow("Board", board)
